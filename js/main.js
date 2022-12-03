@@ -233,9 +233,6 @@ async function selectMenuChangeEventHandler(e) {
     if (!e) {
         return;
     }
-    console.log(e);
-    console.log(e.target);
-    console.log(e.target.value);
     let selector = e.target;
     selector.disabled = true;
     let result = [];
@@ -244,7 +241,6 @@ async function selectMenuChangeEventHandler(e) {
     let posts = await getUserPosts(userId);
     result.push(posts);
     result.push( await refreshPosts(posts));
-    console.log("result " + result);
     selector.disabled = false;
     return result;
 }
