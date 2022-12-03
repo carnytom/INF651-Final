@@ -1,6 +1,4 @@
-document.addEventListener("DOMContentLoaded" , () => {
-    initApp();
-});
+
 
 function createElemWithText(elemType = "p", elemText = "", elemClass) {
     let elem = document.createElement(elemType);
@@ -231,15 +229,23 @@ async function refreshPosts(posts) {
     return result;
 }
 
-async function selectMenuChangeEventHandler() {
-    this.disabled =true;
+async function selectMenuChangeEventHandler(e) {
+    if (!e) {
+        return;
+    }
+    console.log(e);
+    console.log(e.target);
+    console.log(e.target.value);
+    let selector = e.target;
+    selector.disabled = true;
     let result = [];
-    let userId = this.value || 1;
+    let userId = selector.value || 1;
     result.push(userId);
     let posts = await getUserPosts(userId);
     result.push(posts);
-    result.push(await refreshPosts(posts));
-    this.disabled = false;
+    result.push( await refreshPosts(posts));
+    console.log("result " + result);
+    selector.disabled = false;
     return result;
 }
 
@@ -251,10 +257,11 @@ async function initPage() {
     return result;
 }
 
-async function initApp() {
+function initApp() {
     initPage();
     let select = document.getElementById("selectMenu");
-    select.addEventListener("change" , () => {
-        selectMenuChangeEventHandler();
-    });
+    select.addEventListener("change" , selectMenuChangeEventHandler, false);
 }
+document.addEventListener('DOMContentLoaded' , () => {
+    initApp();
+});
